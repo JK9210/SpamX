@@ -1,6 +1,7 @@
 """ RiZoeLX 2022 © SpamX """
 import os
 import sys
+import re
 
 from dotenv import load_dotenv
 from pyrogram import Client
@@ -44,6 +45,7 @@ CLIENT17 = os.getenv("CLIENT17", None)
 CLIENT18 = os.getenv("CLIENT18", None)
 CLIENT19 = os.getenv("CLIENT19", None)
 CLIENT20 = os.getenv("CLIENT20", None)
+auto_re = os.getenv("AUTO_REACT_CHATS", None)
 LOGS_CHANNEL = os.getenv("LOGS_CHANNEL", None)
 if LOGS_CHANNEL:
    if check_logchannel(LOGS_CHANNEL):
@@ -67,3 +69,13 @@ if DATABASE_URL:
    os.system("pip3 install psycopg2-binary") 
    if 'postgres' in DATABASE_URL and 'postgresql' not in DATABASE_URL:
       DATABASE_URL = DATABASE_URL.replace("postgres", "postgresql")
+
+WELCOME = os.getenv("WELCOME", None)
+if WELCOME:
+   if re.search("off|no|disable|false".lower(), WELCOME.lower()):
+      group_welcome = False 
+   else:
+      group_welcome = True
+else:
+   group_welcome = True
+
